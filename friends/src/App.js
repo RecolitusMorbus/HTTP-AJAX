@@ -10,7 +10,7 @@ export default class App extends React.Component {
     add: false
   };
 
-  componentDidCatch() {
+  componentDidMount() {
     axios
       .get(`http://localhost:5000/friends`)
       .then(res => {
@@ -50,6 +50,27 @@ export default class App extends React.Component {
     });
   };
 
+  deleteHandler = id => {
+    axios
+      .delete(`http://localhost:5000/friends/${id}`)
+      .then(res => {
+        this.setState({ friends: res.data });
+        window.alert('They won\'t ever hurt you, again. You made them go away. Forever.')
+      });
+  };
+
+  editHandler = friend => {
+    axios({
+      method: 'PUT',
+      url: `http://localhost:5000/friends/${friend.id}`,
+      data: friend
+    })
+      .then(res => {
+        console.log(res.data);
+        this.setState({ friend: res.data });
+      });
+  };
+
   render() {
     return (
       <div>
@@ -58,6 +79,8 @@ export default class App extends React.Component {
           name={this.state.name}
           age={this.state.age}
           email={this.state.email}
+          killFriend={this.deleteHandler}
+          changeFriend={this.editHandler}
           toggleAdd={this.toggleHandler}
         />
         {this.state.add &&

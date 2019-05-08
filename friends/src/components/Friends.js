@@ -1,6 +1,7 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Route, Link } from 'react-router-dom';
 import Friend from './Friend';
+import ActionFriend from './ActionFriend';
 
 export default class Friends extends React.Component {
   state = {
@@ -19,7 +20,22 @@ export default class Friends extends React.Component {
         <h1>My Friendly Friends List</h1>
         {this.props.friends.map((friend, i) => (
           <div key={i}>
-            <Friend friend={friend} />
+            <Friend
+              friend={friend}
+              toggleAction={this.toggleHandler}
+            />
+            {this.state.action &&
+              <Route
+                path='/action-friend'
+                render={props => (
+                  <ActionFriend
+                    {...props}
+                    killFriend={(id) => this.props.killFriend(id)}
+                    changeFriend={(id) => this.props.changeFriend(id)}
+                  />
+                )}
+              />
+            }
           </div>
         ))}
         {!this.props.add &&
