@@ -22,7 +22,7 @@ export default class Friends extends React.Component {
           <div key={i}>
             <Friend
               friend={friend}
-              toggleAction={this.toggleHandler}
+              toggleAction={this.props.toggleHandler}
             />
             {this.state.action &&
               <Route
@@ -31,7 +31,7 @@ export default class Friends extends React.Component {
                   <ActionFriend
                     {...props}
                     killFriend={(id) => this.props.killFriend(id)}
-                    changeFriend={(id) => this.props.changeFriend(id)}
+                    changeFriend={(friend) => this.props.changeFriend(friend)}
                   />
                 )}
               />
@@ -40,7 +40,7 @@ export default class Friends extends React.Component {
         ))}
         {!this.props.add &&
           <Link to='/add-friend'>
-            <button onClick={this.props.addToggle}>Add New Friend?</button>
+            <button onClick={this.props.toggleAdd}>Add New Friend?</button>
           </Link>
         }
       </div>
